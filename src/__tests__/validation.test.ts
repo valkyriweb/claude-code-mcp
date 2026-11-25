@@ -23,7 +23,7 @@ vi.mock('@modelcontextprotocol/sdk/types.js', () => ({
     MethodNotFound: 'MethodNotFound',
     InvalidParams: 'InvalidParams'
   },
-  McpError: vi.fn().mockImplementation((code, message) => {
+  McpError: vi.fn().mockImplementation(function(code, message) {
     const error = new Error(message);
     (error as any).code = code;
     return error;
@@ -39,7 +39,7 @@ describe('Argument Validation Tests', () => {
 
   function setupServerMock() {
     errorHandler = null;
-    vi.mocked(Server).mockImplementation(() => {
+    vi.mocked(Server).mockImplementation(function() {
       const instance = {
         setRequestHandler: vi.fn(),
         connect: vi.fn(),

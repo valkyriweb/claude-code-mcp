@@ -27,7 +27,7 @@ vi.mock('@modelcontextprotocol/sdk/types.js', () => ({
     InternalError: 'InternalError',
     MethodNotFound: 'MethodNotFound'
   },
-  McpError: vi.fn().mockImplementation((code, message) => {
+  McpError: vi.fn().mockImplementation(function(code, message) {
     const error = new Error(message);
     (error as any).code = code;
     return error;
@@ -41,7 +41,7 @@ const mockHomedir = vi.mocked(homedir);
 // Helper to setup Server mock with proper handlers
 function setupServerMock() {
   let errorHandler: any = null;
-  vi.mocked(Server).mockImplementation(() => {
+  vi.mocked(Server).mockImplementation(function() {
     const instance = {
       setRequestHandler: vi.fn(),
       connect: vi.fn(),
@@ -139,7 +139,7 @@ describe('Error Handling Tests', () => {
       }
 
       // Mock spawn
-      mockSpawn.mockImplementation(() => {
+      mockSpawn.mockImplementation(function() {
         const mockProcess = createMockProcess();
 
         setImmediate(() => {
@@ -218,7 +218,7 @@ describe('Error Handling Tests', () => {
       const handler = callToolCall[1];
 
       // Create a simple mock process
-      mockSpawn.mockImplementation(() => {
+      mockSpawn.mockImplementation(function() {
         const mockProcess = createMockProcess();
 
         // Emit close event after data is sent
@@ -347,7 +347,7 @@ describe('Error Handling Tests', () => {
       mockExistsSync.mockReturnValue(true);
 
       // Set up mock to reject on connect before importing
-      vi.mocked(Server).mockImplementation(() => {
+      vi.mocked(Server).mockImplementation(function() {
         const instance = {
           setRequestHandler: vi.fn(),
           connect: vi.fn().mockRejectedValue(new Error('Connection failed')),
